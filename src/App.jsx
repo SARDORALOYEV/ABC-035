@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 
+import StudentWorksGallery from './components/StudentWorksGallery'
+
 import Home from './pages/Home'
 import Catalog from './pages/Catalog'
 import Brand from './pages/Brand'
@@ -42,6 +44,7 @@ const App = () => {
       <Navbar />
       <main className="pt-[140px]">
         <Routes>
+          <Route path="/students" element={<StudentWorksGallery />} />
           <Route path="/" element={<Home />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/brand" element={<Brand />} />
