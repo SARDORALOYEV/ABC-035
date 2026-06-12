@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 import StudentWorksGallery from './components/StudentWorksGallery'
 
@@ -41,46 +42,49 @@ import Error404 from './pages/Error404'
 const App = () => {
   return (
     <BrowserRouter>
-      <Navbar />
-      <main className="pt-[140px]">
-        <Routes>
-          <Route path="/students" element={<StudentWorksGallery />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/catalog" element={<Catalog />} />
-          <Route path="/brand" element={<Brand />} />
-          <Route path="/model" element={<Model />} />
-          <Route path="/trim" element={<Trim />} />
-          <Route path="/used-cars" element={<UsedCars />} />
-          <Route path="/used-cars/:id" element={<UsedCarDetail />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/collections" element={<Collections />} />
-          <Route path="/collections/:id" element={<CollectionDetail />} />
-          <Route path="/family-car" element={<FamilyCar />} />
-          <Route path="/first-car" element={<FirstCar />} />
-          <Route path="/trade-in" element={<TradeIn />} />
-          <Route path="/medical-workers" element={<MedicalWorkers />} />
-          <Route path="/recycling" element={<Recycling />} />
-          <Route path="/credit-installment" element={<CreditInstallment />} />
-          <Route path="/express-credit" element={<ExpressCredit />} />
-          <Route path="/installment" element={<Installment />} />
-          <Route path="/taxi-credit" element={<TaxiCredit />} />
-          <Route path="/taxi-credit/:id" element={<TaxiCreditDetail />} />
-          <Route path="/model-credit" element={<ModelCredit />} />
-          <Route path="/insurance" element={<Insurance />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/service-center" element={<ServiceCenter />} />
-          <Route path="/contacts" element={<Contacts />} />
-          <Route path="/car-selection-new" element={<CarSelectionNew />} />
-          <Route path="/car-selection-used" element={<CarSelectionUsed />} />
-          <Route path="/reviews" element={<Reviews />} />
-          <Route path="/reviews/:id" element={<ReviewDetail />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<Article />} />
-          <Route path="/comparison-new" element={<ComparisonNew />} />
-          <Route path="/comparison-taxi" element={<ComparisonTaxi />} />
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-      </main>
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+        <main className="flex-grow pt-[140px]">
+          <Routes>
+            <Route path="/students" element={<StudentWorksGallery />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/catalog" element={<Catalog />} />
+            <Route path="/brand" element={<Brand />} />
+            <Route path="/model" element={<Model />} />
+            <Route path="/trim" element={<Trim />} />
+            <Route path="/used-cars" element={<UsedCars />} />
+            <Route path="/used-cars/:id" element={<UsedCarDetail />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/collections" element={<Collections />} />
+            <Route path="/collections/:id" element={<CollectionDetail />} />
+            <Route path="/family-car" element={<FamilyCar />} />
+            <Route path="/first-car" element={<FirstCar />} />
+            <Route path="/trade-in" element={<TradeIn />} />
+            <Route path="/medical-workers" element={<MedicalWorkers />} />
+            <Route path="/recycling" element={<Recycling />} />
+            <Route path="/credit-installment" element={<CreditInstallment />} />
+            <Route path="/express-credit" element={<ExpressCredit />} />
+            <Route path="/installment" element={<Installment />} />
+            <Route path="/taxi-credit" element={<TaxiCredit />} />
+            <Route path="/taxi-credit/:id" element={<TaxiCreditDetail />} />
+            <Route path="/model-credit" element={<ModelCredit />} />
+            <Route path="/insurance" element={<Insurance />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/service-center" element={<ServiceCenter />} />
+            <Route path="/contacts" element={<Contacts />} />
+            <Route path="/car-selection-new" element={<CarSelectionNew />} />
+            <Route path="/car-selection-used" element={<CarSelectionUsed />} />
+            <Route path="/reviews" element={<Reviews />} />
+            <Route path="/reviews/:id" element={<ReviewDetail />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<Article />} />
+            <Route path="/comparison-new" element={<ComparisonNew />} />
+            <Route path="/comparison-taxi" element={<ComparisonTaxi />} />
+            <Route path="*" element={<Error404 />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </BrowserRouter>
   )
 }

@@ -1,6 +1,10 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import MobileSidebar from './MobileSidebar'
 
 const Navbar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-gray-200">
       {/* TOP UTILITY BAR */}
@@ -35,7 +39,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between max-w-7xl mx-auto py-3">
           {/* Left: Hamburger + Logo */}
           <div className="flex items-center">
-            <button className="mr-3">
+            <button className="mr-3" onClick={() => setIsSidebarOpen(true)}>
               <svg className="w-6 h-5 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
@@ -56,7 +60,7 @@ const Navbar = () => {
           </div>
 
           {/* Trust Badge */}
-          <div className="hidden lg:flex items-center">
+          <div className="hidden xl:flex items-center">
             <div className="h-8 border-l border-gray-300 mx-4" />
             <div className="flex items-start gap-2">
               <span className="bg-red-600 px-2 py-0.5 rounded text-white font-bold text-xs leading-none mt-0.5">10 лет</span>
@@ -67,7 +71,7 @@ const Navbar = () => {
           </div>
 
           {/* Middle Links */}
-          <div className="hidden lg:flex items-center gap-5">
+          <div className="hidden xl:flex items-center gap-5">
             <Link to="/catalog" className="text-red-500 font-medium text-xs">Подбор авто</Link>
             <Link to="/about" className="text-slate-600 hover:text-slate-900 text-xs">О компании</Link>
             <Link to="/service-center" className="text-slate-600 hover:text-slate-900 text-xs">Техцентр</Link>
@@ -77,7 +81,16 @@ const Navbar = () => {
 
           {/* Right: Phone + CTA */}
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
+            {/* Mobile: Phone icon only */}
+            <a href="tel:+78005519431" className="xl:hidden">
+              <div className="bg-red-600 text-white p-2 rounded-full">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+            </a>
+            {/* Desktop: full phone block */}
+            <div className="hidden xl:flex items-center gap-2">
               <div className="bg-red-600 text-white p-2 rounded-full flex-shrink-0">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -88,7 +101,7 @@ const Navbar = () => {
                 <span className="text-xs text-slate-500 mt-0.5">+7 (495) 292-18-67</span>
               </div>
             </div>
-            <button className="bg-[#c40000] text-white font-bold text-xs tracking-wider px-6 py-3 rounded-lg hover:bg-red-800 transition-colors whitespace-nowrap">
+            <button className="hidden xl:block bg-[#c40000] text-white font-bold text-xs tracking-wider px-6 py-3 rounded-lg hover:bg-red-800 transition-colors whitespace-nowrap">
               ОБРАТНЫЙ ЗВОНОК
             </button>
           </div>
@@ -96,7 +109,7 @@ const Navbar = () => {
       </div>
 
       {/* BOTTOM NAVIGATION BAR */}
-      <div className="bg-white px-4 md:px-8 border-t border-gray-100">
+      <div className="hidden xl:block bg-white px-4 md:px-8 border-t border-gray-100">
         <div className="flex items-center justify-between max-w-7xl mx-auto h-11">
           <nav className="flex items-center gap-6">
             <Link to="/catalog" className="flex items-center gap-1 text-slate-950 font-bold text-xs tracking-wide">
@@ -150,6 +163,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <MobileSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </header>
   )
 }
