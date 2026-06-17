@@ -66,7 +66,7 @@ async function request(endpoint, options = {}) {
 
 export const carsAPI = {
   getAll: async (params = {}) => {
-    if (import.meta.env.PROD) {
+    try {
       let query = supabase
         .from('cars')
         .select('*, category:category_id(id, name, slug)', { count: 'exact' })
@@ -76,7 +76,7 @@ export const carsAPI = {
       if (limit) query = query.limit(limit)
 
       const { data, error, count } = await query
-      if (error) throw new Error(error.message)
+      if (error) throw error
 
       return {
         success: true,
@@ -84,27 +84,38 @@ export const carsAPI = {
         total: count,
         data: (data || []).map(mapCarRow),
       }
+    } catch (err) {
+      console.warn('Supabase getAll failed, falling back to API:', err.message)
+      const query = new URLSearchParams(params).toString()
+      return request(`/cars${query ? `?${query}` : ''}`)
     }
-    const query = new URLSearchParams(params).toString()
-    return request(`/cars${query ? `?${query}` : ''}`)
   },
-  getFeatured: () => {
-    if (import.meta.env.PROD) {
+  getFeatured: async () => {
+    try {
+      const { data, error } = await supabase
+        .from('cars')
+        .select('*, category:category_id(id, name, slug)')
+        .eq('is_featured', true)
+        .limit(6)
+      if (error) throw error
+      return { success: true, data: (data || []).map(mapCarRow) }
+    } catch {
       return carsAPI.getAll({ limit: 6 })
     }
-    return request('/cars/featured')
   },
   getById: async (id) => {
-    if (import.meta.env.PROD) {
+    try {
       const { data, error } = await supabase
         .from('cars')
         .select('*, category:category_id(id, name, slug)')
         .eq('id', id)
         .single()
-      if (error) throw new Error(error.message)
+      if (error) throw error
       return { success: true, data: mapCarRow(data) }
+    } catch (err) {
+      console.warn('Supabase getById failed, falling back to API:', err.message)
+      return request(`/cars/${id}`)
     }
-    return request(`/cars/${id}`)
   },
   create: (formData) =>
     request('/cars', {
@@ -131,15 +142,17 @@ export const authAPI = {
 
 export const categoriesAPI = {
   getAll: async () => {
-    if (import.meta.env.PROD) {
+    try {
       const { data, error } = await supabase
         .from('categories')
         .select('*')
         .order('name')
-      if (error) throw new Error(error.message)
+      if (error) throw error
       return { success: true, data: data || [] }
+    } catch (err) {
+      console.warn('Supabase categories failed, falling back to API:', err.message)
+      return request('/categories')
     }
-    return request('/categories')
   },
   getById: (id) => request(`/categories/${id}`),
   create: (formData) =>
