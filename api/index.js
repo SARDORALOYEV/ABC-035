@@ -25,7 +25,9 @@ function mapCarRow(row) {
     condition: row.condition,
     description: row.description,
     images: row.images,
-    category: row.category ? { id: row.category.id, name: row.category.name, slug: row.category.slug } : null,
+    category: row.category
+      ? { id: row.category.id, name: row.category.name, slug: row.category.slug }
+      : null,
     category_id: row.category_id,
     isAvailable: row.is_available,
     isFeatured: row.is_featured,
@@ -48,27 +50,29 @@ export default async (req, res) => {
 
   try {
     if (path === '/cars' || path === '/cars/' || path === '') {
-      if (req.method === 'GET') {
-        let query = supabase
-          .from('cars')
-          .select('*, category:category_id(id, name, slug)', { count: 'exact' })
-          .order('created_at', { ascending: false });
-
-        const limit = Math.min(50, Math.max(1, Number(params.limit) || 50));
-        query = query.limit(limit);
-
-        const { data, error, count } = await query;
-        if (error) throw error;
-
-        return res.json({
-          success: true,
-          count: data.length,
-          total: count,
-          page: 1,
-          pages: Math.ceil(count / limit),
-          data: (data || []).map(mapCarRow),
-        });
+      if (req.method !== 'GET') {
+        return res.status(405).json({ success: false, message: 'Method not allowed' });
       }
+
+      let query = supabase
+        .from('cars')
+        .select('*, category:category_id(id, name, slug)', { count: 'exact' })
+        .order('created_at', { ascending: false });
+
+      const limit = Math.min(50, Math.max(1, Number(params.limit) || 50));
+      query = query.limit(limit);
+
+      const { data, error, count } = await query;
+      if (error) throw error;
+
+      return res.json({
+        success: true,
+        count: data.length,
+        total: count,
+        page: 1,
+        pages: Math.ceil(count / limit),
+        data: (data || []).map(mapCarRow),
+      });
     }
 
     if (path === '/cars/featured') {
@@ -79,36 +83,19 @@ export default async (req, res) => {
         .order('created_at', { ascending: false })
         .limit(6);
       if (error) throw error;
-      return res.json({
-        success: true,
-        data: (data || []).map(mapCarRow),
-      });
+      return res.json({ success: true, data: (data || []).map(mapCarRow) });
     }
 
-    const carMatch = path.match(/^\/cars\/([^/]+)$/);
+    const carMatch = path.match(/^\/cars\/(.+)$/);
     if (carMatch) {
       const id = carMatch[1];
-      if (req.method === 'GET') {
-        const { data, error } = await supabase
-          .from('cars')
-          .select('*, category:category_id(id, name, slug)')
-          .eq('id', id)
-          .single();
-        if (error) throw error;
-        return res.json({ success: true, data: mapCarRow(data) });
-      }
-    }
       const { data, error } = await supabase
         .from('cars')
-        .select('*, category:category_id(id, name, slug)', { count: 'exact' })
-        .eq('is_featured', true)
-        .order('created_at', { ascending: false })
-        .limit(6);
+        .select('*, category:category_id(id, name, slug)')
+        .eq('id', id)
+        .single();
       if (error) throw error;
-      return res.json({
-        success: true,
-        data: (data || []).map(mapCarRow),
-      });
+      return res.json({ success: true, data: mapCarRow(data) });
     }
 
     if (path === '/categories' || path === '/categories/') {
