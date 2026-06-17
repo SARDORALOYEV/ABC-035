@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { carsAPI } from '../api'
 import VehicleGridCard from '../../meyirlan/VehicleGridCard'
+import { getFavorites } from '../utils/favorites'
 
 const Favorites = () => {
   const [cars, setCars] = useState([])
@@ -10,7 +11,7 @@ const Favorites = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const ids = JSON.parse(localStorage.getItem('favorites') || '[]')
+        const ids = getFavorites()
         if (ids.length === 0) {
           setCars([])
           return
@@ -27,10 +28,10 @@ const Favorites = () => {
   }, [])
 
   const removeFavorite = (id) => {
-    const ids = JSON.parse(localStorage.getItem('favorites') || '[]')
+    const ids = getFavorites()
     const next = ids.filter((f) => f !== id)
     localStorage.setItem('favorites', JSON.stringify(next))
-    setCars((prev) => prev.filter((c) => c._id !== id))
+    setCars((prev) => prev.filter((c) => c.id !== id))
   }
 
   return (
@@ -51,14 +52,6 @@ const Favorites = () => {
               <Link to={`/used-cars/${car.id}`}>
                 <VehicleGridCard car={car} />
               </Link>
-              <button
-                onClick={() => removeFavorite(car.id)}
-                className="absolute top-2 right-2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center hover:bg-red-50 transition z-10"
-              >
-                <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </button>
             </div>
           ))}
         </div>

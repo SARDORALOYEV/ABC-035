@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react'
 import { Heart, GitCompare, Gift, Zap, Fuel, Gauge, Timer } from 'lucide-react'
 import { getFirstCarImage } from '../utils/imageHelper'
+import { toggleFavorite, isFavorite } from '../utils/favorites'
 
 const formatPrice = (price, currency) => {
   const formatted = new Intl.NumberFormat('ru-RU').format(price)
@@ -25,6 +27,12 @@ const InfoRow = ({ icon, label }) => (
 )
 
 const CarCard = ({ car }) => {
+  const [fav, setFav] = useState(false)
+
+  useEffect(() => {
+    setFav(isFavorite(car.id))
+  }, [car.id])
+
   const specs = [
     ...(car.horsePower ? [{ label: `${car.horsePower} л.с.`, Icon }] : []),
     ...(car.engineVolume ? [{ label: `${car.engineVolume}L`, Icon: Fuel }] : []),
@@ -49,11 +57,8 @@ const CarCard = ({ car }) => {
           </p>
         </div>
         <div className="flex items-center gap-0.5 shrink-0">
-          <button className="p-1.5 rounded-full hover:bg-gray-100 transition-colors cursor-pointer">
-            <Heart size={20} className="text-gray-400 hover:text-red-500 transition-colors" />
-          </button>
-          <button className="p-1.5 rounded-full hover:bg-gray-100 transition-colors cursor-pointer">
-            <GitCompare size={20} className="text-gray-400 hover:text-gray-600 transition-colors" />
+          <button onClick={() => { toggleFavorite(car.id); setFav(isFavorite(car.id)) }} className="p-1.5 rounded-full hover:bg-gray-100 transition-colors cursor-pointer">
+            <Heart size={20} className={`transition-colors ${fav ? 'fill-red-500 text-red-500' : 'text-gray-400 hover:text-red-500'}`} />
           </button>
         </div>
       </div>

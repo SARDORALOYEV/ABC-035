@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+import { toggleFavorite, isFavorite } from '../src/utils/favorites'
 import { getFirstCarImage } from '../src/utils/imageHelper'
 
 const CarPlaceholder = () => (
@@ -7,9 +9,23 @@ const CarPlaceholder = () => (
 )
 
 const VehicleGridCard = ({ car }) => {
+  const [fav, setFav] = useState(false)
   const imageUrl = getFirstCarImage(car)
+
+  useEffect(() => {
+    setFav(isFavorite(car.id))
+  }, [car.id])
+
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow relative">
+      <button
+        onClick={(e) => { e.preventDefault(); toggleFavorite(car.id); setFav(isFavorite(car.id)) }}
+        className="absolute top-2 right-2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition z-10"
+      >
+        <svg className={`w-4 h-4 transition-colors ${fav ? 'fill-red-500 text-red-500' : 'text-slate-400 hover:text-red-400'}`} fill={fav ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      </button>
       <div className="aspect-[4/3] bg-gray-100 relative flex items-center justify-center">
         {imageUrl ? (
           <img src={imageUrl} alt={`${car.brand} ${car.model}`} className="w-full h-full object-cover" />
