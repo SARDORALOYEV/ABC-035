@@ -19,16 +19,15 @@ const slides = [
 
 const CarBanner = () => {
   return (
-    <section className="mx-auto max-w-[1870px] px-[25px] pt-[20px]">
+    <section className="mx-auto max-w-[1870px] px-4 sm:px-[25px] pt-[20px]">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         loop
-        className="overflow-hidden"
+        className="overflow-hidden !h-[300px] sm:!h-[400px] md:!h-[500px] lg:!h-[600px]"
         style={{
-          height: '600px',
           borderRadius: '25px',
           opacity: 1,
           background: '#f3f4f6',
@@ -40,20 +39,20 @@ const CarBanner = () => {
       >
         {slides.map((slide, i) => (
           <SwiperSlide key={i} className="!h-full">
-            <div className="flex flex-col md:flex-row items-center justify-center px-6 md:px-12 py-8 md:py-12 h-full">
+            <div className="flex flex-col md:flex-row items-center justify-center px-4 sm:px-6 md:px-12 py-6 sm:py-8 md:py-12 h-full">
               <div className="w-full md:w-1/2 z-10">
-                <span className="inline-block bg-red-600 text-white text-xs font-bold px-3 py-1 rounded mb-4">
+                <span className="inline-block bg-red-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 rounded mb-3 sm:mb-4">
                   {slide.badge}
                 </span>
-                <h1 className="font-['Roboto'] font-bold text-[60px] leading-[100%] text-gray-900 mb-3">
+                <h1 className="font-['Roboto'] font-bold text-[28px] sm:text-[36px] md:text-[48px] lg:text-[60px] leading-[100%] text-gray-900 mb-2 sm:mb-3">
                   {slide.title}
                 </h1>
-                <p className="font-['Roboto'] font-normal text-[29px] leading-[100%] text-gray-500">
+                <p className="font-['Roboto'] font-normal text-[18px] sm:text-[22px] md:text-[29px] leading-[100%] text-gray-500">
                   {slide.subtitle}
                 </p>
               </div>
 
-              <div className="w-full md:w-1/2 relative h-[200px] md:h-[300px] mt-6 md:mt-0">
+              <div className="w-full md:w-1/2 relative h-[140px] sm:h-[180px] md:h-[250px] lg:h-[300px] mt-4 sm:mt-6 md:mt-0">
                 <img
                   src={oq3}
                   alt=""

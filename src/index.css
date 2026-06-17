@@ -1,6 +1,69 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --color-platinum: #e5e4e2;
+  --color-matte-black: #0a0a0a;
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+@supports (scrollbar-color: auto) {
+  .scrollbar-custom {
+    scrollbar-color: #475569 transparent;
+    scrollbar-width: thin;
+  }
+}
+
 body {
   background: #fff;
 }

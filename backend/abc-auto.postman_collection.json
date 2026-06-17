@@ -1,0 +1,269 @@
+{
+  "info": {
+    "name": "ABC Auto API",
+    "description": "ABC Auto backend API - barcha endpointlar",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api", "type": "string" },
+    { "key": "token", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Admin\", \"email\": \"admin@abcauto.uz\", \"password\": \"admin123456\"}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.data && res.data.token) {",
+                  "  pm.collectionVariables.set('token', res.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"admin@abcauto.uz\", \"password\": \"admin123456\"}"
+            }
+          }
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": { "method": "GET", "url": "{{baseUrl}}/categories" }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": { "method": "GET", "url": "{{baseUrl}}/categories/CATEGORY_ID" }
+        },
+        {
+          "name": "Create Category (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/categories",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "name", "value": "Sedan", "type": "text" },
+                { "key": "slug", "value": "sedan", "type": "text" },
+                { "key": "description", "value": "Sedan tipidagi avtomobillar", "type": "text" },
+                { "key": "image", "type": "file", "src": "" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Category (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/categories/CATEGORY_ID",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "name", "value": "Yangilangan Sedan", "type": "text" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Category (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/categories/CATEGORY_ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cars",
+      "item": [
+        {
+          "name": "Get All Cars",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/cars?page=1&limit=12",
+              "host": ["{{baseUrl}}"],
+              "path": ["cars"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "12" },
+                { "key": "brand", "value": "", "disabled": true },
+                { "key": "minPrice", "value": "", "disabled": true },
+                { "key": "maxPrice", "value": "", "disabled": true },
+                { "key": "fuelType", "value": "", "disabled": true },
+                { "key": "bodyType", "value": "", "disabled": true },
+                { "key": "search", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Featured Cars",
+          "request": { "method": "GET", "url": "{{baseUrl}}/cars/featured" }
+        },
+        {
+          "name": "Get Car by ID",
+          "request": { "method": "GET", "url": "{{baseUrl}}/cars/CAR_ID" }
+        },
+        {
+          "name": "Create Car (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/cars",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "title", "value": "Chevrolet Malibu 2022", "type": "text" },
+                { "key": "brand", "value": "Chevrolet", "type": "text" },
+                { "key": "model", "value": "Malibu", "type": "text" },
+                { "key": "year", "value": "2022", "type": "text" },
+                { "key": "price", "value": "22000", "type": "text" },
+                { "key": "mileage", "value": "15000", "type": "text" },
+                { "key": "fuelType", "value": "benzin", "type": "text" },
+                { "key": "transmission", "value": "avtomat", "type": "text" },
+                { "key": "bodyType", "value": "sedan", "type": "text" },
+                { "key": "category", "value": "CATEGORY_ID", "type": "text" },
+                { "key": "images", "type": "file", "src": "" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Car (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/cars/CAR_ID",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "price", "value": "21000", "type": "text" },
+                { "key": "isAvailable", "value": "true", "type": "text" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Car (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/cars/CAR_ID"
+          }
+        },
+        {
+          "name": "Delete Car Image (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/cars/CAR_ID/images/IMAGE_ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create Order (Public)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"car\": \"CAR_ID\", \"fullName\": \"Alisher Karimov\", \"phone\": \"+998901234567\", \"message\": \"Bu avtomobil haqida ma'lumot olmoqchiman\"}"
+            }
+          }
+        },
+        {
+          "name": "Get All Orders (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/orders?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" },
+                { "key": "status", "value": "yangi", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Order by ID (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/orders/ORDER_ID"
+          }
+        },
+        {
+          "name": "Update Order Status (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/orders/ORDER_ID",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\": \"korib_chiqilmoqda\"}"
+            }
+          }
+        },
+        {
+          "name": "Delete Order (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/orders/ORDER_ID"
+          }
+        }
+      ]
+    }
+  ]
+}

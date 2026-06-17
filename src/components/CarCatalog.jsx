@@ -1,13 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-import cars from '../../public/data/fakecard.js'
+import { carsAPI } from '../api'
 import CarCard from './CarCard'
 
 const INITIAL_COUNT = 6
 const LOAD_MORE_COUNT = 3
 
 const CarCatalog = () => {
+  const [cars, setCars] = useState([])
+  const [loading, setLoading] = useState(true)
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT)
+
+  useEffect(() => {
+    const fetchCars = async () => {
+      try {
+        const res = await carsAPI.getAll({ limit: 50 })
+        setCars(res.data)
+      } catch (err) {
+        console.error('Avtomobillarni yuklashda xatolik:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchCars()
+  }, [])
 
   const visibleCars = cars.slice(0, visibleCount)
   const hasMore = visibleCount < cars.length
@@ -16,8 +32,19 @@ const CarCatalog = () => {
     setVisibleCount((prev) => Math.min(prev + LOAD_MORE_COUNT, cars.length))
   }
 
+  if (loading) {
+    return (
+      <section className="mx-auto max-w-[1870px] px-4 sm:px-[25px] pt-12 pb-16">
+        <h2 className="text-center text-2xl font-extrabold text-gray-900 mb-8">
+          Автомобили в наличии с ПТС
+        </h2>
+        <div className="text-center text-gray-500">Загрузка...</div>
+      </section>
+    )
+  }
+
   return (
-    <section className="mx-auto max-w-[1870px] px-[25px] pt-12 pb-16">
+    <section className="mx-auto max-w-[1870px] px-4 sm:px-[25px] pt-12 pb-16">
       <h2 className="text-center text-2xl font-extrabold text-gray-900 mb-8">
         Автомобили в наличии с ПТС
       </h2>

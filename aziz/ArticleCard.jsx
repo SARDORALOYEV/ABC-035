@@ -2,7 +2,6 @@ const ArticleCard = () => {
   return (
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
       <div className="aspect-[16/9] bg-gray-100 relative">
-        <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs">Maqola rasmi</div>
         <span className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded">Yangi</span>
       </div>
       <div className="p-3">

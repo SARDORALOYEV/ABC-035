@@ -49,7 +49,7 @@ const Footer = () => {
       {/* TOP ROW LINKS */}
       <div className="border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex items-center justify-between h-14 overflow-x-auto gap-6 text-[13px] font-semibold tracking-wider text-white/80">
+          <div className="flex items-center justify-start lg:justify-between h-auto lg:h-14 py-3 lg:py-0 overflow-x-auto gap-4 lg:gap-6 text-[13px] font-semibold tracking-wider text-white/80">
             <a href="#" className="hover:text-red-500 whitespace-nowrap transition">КАТАЛОГ АВТО</a>
             <a href="#" className="hover:text-red-500 whitespace-nowrap transition">АВТО С ПРОБЕГОМ</a>
             <a href="#" className="hover:text-red-500 whitespace-nowrap transition">КРЕДИТ И РАССРОЧКА</a>
@@ -65,7 +65,7 @@ const Footer = () => {
           {/* Column 1 — Каталог авто */}
           <div>
             <h4 className="text-xs font-bold tracking-wider text-white/50 mb-4">КАТАЛОГ АВТО</h4>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
               {brandLinks.map((link, i) => (
                 <a key={i} href="#" className="text-[13px] text-slate-400 hover:text-white transition">{link}</a>
               ))}
@@ -149,9 +149,9 @@ const Footer = () => {
               <p className="text-[13px] text-slate-400 leading-relaxed">
                 &copy; 2021 Автосалон &laquo;ABC AUTO&raquo;. Официальный дилер
               </p>
-              <div className="flex items-center gap-3 mt-2 text-[12px] text-slate-500">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 mt-2 text-[12px] text-slate-500">
                 <a href="#" className="hover:text-white transition">Политика конфиденциальности</a>
-                <span className="w-px h-3 bg-white/10" />
+                <span className="hidden sm:block w-px h-3 bg-white/10" />
                 <a href="#" className="hover:text-white transition">Карта сайта</a>
               </div>
             </div>
@@ -187,7 +187,7 @@ const Footer = () => {
       {/* BOTTOM AUTO SEO MATRIX GRID */}
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
             {seoModels.map((group, i) => (
               <div key={i}>
                 <h5 className="text-[11px] font-bold tracking-wider text-white/60 mb-3">{group.brand}</h5>

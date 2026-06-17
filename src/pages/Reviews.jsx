@@ -1,162 +1,54 @@
-import { Star, MessageSquare, ThumbsUp, User, Quote } from 'lucide-react'
+import { useState } from 'react'
 
-const reviewData = [
-  {
-    name: 'Александр Козлов',
-    date: '15 мая 2026',
-    rating: 5,
-    text: 'Отличный автосалон! Покупал здесь свой первый автомобиль. Менеджеры профессионалы своего дела, все доходчиво объяснили и помогли с выбором. Оформление документов прошло быстро и без лишней суеты. Рекомендую!',
-    likes: 12,
-    tag: 'Покупка авто'
-  },
-  {
-    name: 'Мария Иванова',
-    date: '28 апреля 2026',
-    rating: 5,
-    text: 'Обращалась в техцентр для проведения планового ТО. Качеством обслуживания довольна: все сделали в срок, цена соответствовала заявленной. Очень удобная зона ожидания с вкусным кофе.',
-    likes: 8,
-    tag: 'Сервис'
-  },
-  {
-    name: 'Дмитрий Петров',
-    date: '10 апреля 2026',
-    rating: 4,
-    text: 'Хороший выбор автомобилей в наличии. Немного затянулось оформление страховки, но в целом впечатление положительное. Персонал вежливый и внимательный.',
-    likes: 5,
-    tag: 'Страхование'
-  },
-  {
-    name: 'Елена Соколова',
-    date: '22 марта 2026',
-    rating: 5,
-    text: 'Воспользовалась услугой trade-in. Оценили мой старый автомобиль по адекватной цене. Новую машину получила в тот же день. Огромное спасибо команде Азимут Варшавка!',
-    likes: 15,
-    tag: 'Trade-in'
-  }
+const reviewsData = [
+  { id: 1, name: 'Alexandr', car: 'BMW X5 2023', rating: 5, text: 'Ajoyib avtomobil! Tez yetkazib berishdi, barcha hujjatlar tartibli. Juda mamnunman.', date: '2024-05-15' },
+  { id: 2, name: 'Dmitriy', car: 'Mercedes-Benz E-Class 2022', rating: 4, text: 'Yaxshi tanlov, lekin yetkazib berish biroz kechikdi. Avtomobil sifatli.', date: '2024-04-20' },
+  { id: 3, name: 'Jahongir', car: 'Toyota Camry 2023', rating: 5, text: 'Tez va sifatli xizmat. Hammasi yoqdi!', date: '2024-03-10' },
 ]
 
 const Reviews = () => {
+  const [visible, setVisible] = useState(3)
+
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 pb-16">
-      {/* BREADCRUMBS */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-2 pt-2">
-        <span>Главная</span>
-        <span>/</span>
-        <span className="text-gray-600">Отзывы</span>
-      </div>
+    <div className="mx-auto max-w-[1200px] px-4 sm:px-[25px] py-8">
+      <h1 className="text-2xl font-bold text-gray-900 mb-2">Sharhlar</h1>
+      <p className="text-sm text-slate-500 mb-6">Mijozlarimizning fikrlari</p>
 
-      {/* PAGE TITLE */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-        <div className="max-w-xl">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Отзывы клиентов</h1>
-            <p className="text-gray-500">Мы ценим каждое мнение и постоянно работаем над улучшением качества нашего сервиса.</p>
-        </div>
-        <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-xl transition shadow-lg shadow-red-600/20 flex items-center gap-3 w-fit">
-          <MessageSquare className="w-5 h-5" />
-          Оставить отзыв
-        </button>
-      </div>
-
-      {/* RATING SUMMARY */}
-      <section className="bg-slate-900 rounded-[3rem] p-8 md:p-12 mb-16 text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-            <Star className="w-64 h-64 rotate-12" />
-        </div>
-        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12 items-center text-center md:text-left">
-          <div className="md:border-r border-white/10 pr-4">
-            <div className="text-7xl font-bold mb-4">4.9</div>
-            <div className="flex items-center justify-center md:justify-start gap-1 mb-4">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} className="w-6 h-6 fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
-            <p className="text-gray-400 text-sm">Средняя оценка на основе 1,240 отзывов в Яндекс и Google</p>
-          </div>
-          <div className="col-span-1 md:col-span-2 space-y-4">
-            {[
-              { label: 'Отлично', width: '92%', color: 'bg-green-500' },
-              { label: 'Хорошо', width: '6%', color: 'bg-yellow-400' },
-              { label: 'Нормально', width: '1%', color: 'bg-orange-400' },
-              { label: 'Плохо', width: '0%', color: 'bg-red-400' },
-              { label: 'Ужасно', width: '1%', color: 'bg-red-600' },
-            ].map((row, index) => (
-              <div key={index} className="flex items-center gap-6">
-                <span className="text-sm font-medium text-gray-300 w-20 shrink-0">{row.label}</span>
-                <div className="flex-grow h-2 bg-white/5 rounded-full overflow-hidden">
-                  <div className={`h-full ${row.color} rounded-full transition-all duration-1000`} style={{ width: row.width }}></div>
-                </div>
-                <span className="text-sm font-bold text-gray-400 w-10 text-right">{row.width}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* REVIEWS LIST */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-        {reviewData.map((review, index) => (
-          <div key={index} className="bg-white p-8 md:p-10 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-gray-200/50 transition-all duration-500 group relative">
-            <div className="absolute top-8 right-8 text-gray-50 group-hover:text-red-50 transition-colors">
-                <Quote className="w-12 h-12" />
-            </div>
-            
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100">
-                <User className="w-7 h-7 text-gray-400" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {reviewsData.slice(0, visible).map((review) => (
+          <div key={review.id} className="bg-white border border-gray-200 rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-xs text-gray-500 font-bold">
+                {review.name[0]}
               </div>
               <div>
-                <h4 className="font-bold text-gray-900 text-lg">{review.name}</h4>
-                <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-400">{review.date}</span>
-                    <span className="w-1 h-1 bg-gray-200 rounded-full"></span>
-                    <span className="text-[10px] font-bold text-red-600 uppercase tracking-widest">{review.tag}</span>
-                </div>
+                <p className="text-sm font-bold text-slate-900">{review.name}</p>
+                <p className="text-[11px] text-slate-400">{review.car}</p>
               </div>
             </div>
-
-            <div className="flex gap-1 mb-6">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Star 
-                    key={i} 
-                    className={`w-4 h-4 ${i <= review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-100'}`} 
-                  />
-                ))}
+            <div className="flex items-center gap-0.5 mb-2">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <svg key={i} className={`w-4 h-4 ${i <= review.rating ? 'text-yellow-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
             </div>
-
-            <p className="text-gray-600 leading-relaxed mb-8 italic">
-              "{review.text}"
-            </p>
-            
-            <div className="flex items-center justify-between pt-6 border-t border-gray-50">
-              <button className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-red-600 transition-colors uppercase tracking-wider">
-                <ThumbsUp className="w-4 h-4" />
-                Полезно ({review.likes})
-              </button>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Проверено</span>
-              </div>
-            </div>
+            <p className="text-xs text-slate-600 leading-relaxed">{review.text}</p>
+            <p className="text-[10px] text-slate-400 mt-2">{review.date}</p>
           </div>
         ))}
       </div>
 
-      {/* ACTION SECTION */}
-      <section className="bg-red-600 rounded-[3rem] p-10 md:p-16 text-white text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Помогите нам стать лучше</h2>
-          <p className="text-red-100 max-w-2xl mx-auto mb-10 text-lg">
-              Ваш отзыв помогает другим пользователям сделать правильный выбор, 
-              а нам — улучшить качество обслуживания.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-              <button className="bg-white text-red-600 font-bold py-4 px-10 rounded-xl hover:bg-red-50 transition shadow-xl">
-                  Написать отзыв
-              </button>
-              <button className="bg-transparent border-2 border-white/30 text-white font-bold py-4 px-10 rounded-xl hover:bg-white/10 transition">
-                  Все площадки
-              </button>
-          </div>
-      </section>
+      {visible < reviewsData.length && (
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => setVisible(reviewsData.length)}
+            className="bg-red-600 text-white text-xs font-bold px-6 py-2.5 rounded-lg hover:bg-red-700 transition"
+          >
+            Barcha sharhlarni ko'rish
+          </button>
+        </div>
+      )}
     </div>
   )
 }

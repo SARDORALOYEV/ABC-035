@@ -1,0 +1,21 @@
+{
+  "site_name": "ABC Auto",
+  "site_language": "ru",
+  "currency": "UZS",
+  "items_per_page": "20",
+  "meta_title": "ABC Auto - Avtomobillar",
+  "meta_description": "O'zbekistondagi eng yirik avtomobil platformasi",
+  "canonical_url": "https://abc-auto.uz",
+  "storage_provider": "supabase",
+  "image_quality": "80",
+  "max_file_size": "5",
+  "two_factor_auth": "false",
+  "session_timeout": "4",
+  "ip_blocking": "false",
+  "notify_new_order": "true",
+  "notify_new_user": "true",
+  "email_reports": "true",
+  "color_scheme": "light",
+  "font_size": "small",
+  "sidebar_collapsed": "false"
+}
