@@ -67,6 +67,10 @@ async function request(endpoint, options = {}) {
 export const carsAPI = {
   getAll: async (params = {}) => {
     try {
+      const query = new URLSearchParams(params).toString()
+      return await request(`/cars${query ? `?${query}` : ''}`)
+    } catch (err) {
+      console.warn('API getAll xatosi, Supabase bilan davom:', err.message)
       let query = supabase
         .from('cars')
         .select('*, category:category_id(id, name, slug)', { count: 'exact' })
@@ -84,14 +88,12 @@ export const carsAPI = {
         total: count,
         data: (data || []).map(mapCarRow),
       }
-    } catch (err) {
-      console.warn('Supabase getAll failed, falling back to API:', err.message)
-      const query = new URLSearchParams(params).toString()
-      return request(`/cars${query ? `?${query}` : ''}`)
     }
   },
   getFeatured: async () => {
     try {
+      return await request('/cars/featured')
+    } catch {
       const { data, error } = await supabase
         .from('cars')
         .select('*, category:category_id(id, name, slug)')
@@ -99,12 +101,13 @@ export const carsAPI = {
         .limit(6)
       if (error) throw error
       return { success: true, data: (data || []).map(mapCarRow) }
-    } catch {
-      return carsAPI.getAll({ limit: 6 })
     }
   },
   getById: async (id) => {
     try {
+      return await request(`/cars/${id}`)
+    } catch (err) {
+      console.warn('API getById xatosi, Supabase bilan davom:', err.message)
       const { data, error } = await supabase
         .from('cars')
         .select('*, category:category_id(id, name, slug)')
@@ -112,9 +115,6 @@ export const carsAPI = {
         .single()
       if (error) throw error
       return { success: true, data: mapCarRow(data) }
-    } catch (err) {
-      console.warn('Supabase getById failed, falling back to API:', err.message)
-      return request(`/cars/${id}`)
     }
   },
   create: (formData) =>
@@ -143,15 +143,15 @@ export const authAPI = {
 export const categoriesAPI = {
   getAll: async () => {
     try {
+      return await request('/categories')
+    } catch (err) {
+      console.warn('API categories xatosi, Supabase bilan davom:', err.message)
       const { data, error } = await supabase
         .from('categories')
         .select('*')
         .order('name')
       if (error) throw error
       return { success: true, data: data || [] }
-    } catch (err) {
-      console.warn('Supabase categories failed, falling back to API:', err.message)
-      return request('/categories')
     }
   },
   getById: (id) => request(`/categories/${id}`),
