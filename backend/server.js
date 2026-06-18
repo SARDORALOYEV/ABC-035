@@ -81,7 +81,13 @@ app.get('/api/health', (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server ${PORT}-portda ishga tushdi (${process.env.NODE_ENV || 'development'} rejimida)`);
-});
+// Vercel uchun app'ni eksport qilamiz
+module.exports = app;
+
+// Faqat to'g'ridan-to'g'ri ishga tushirilganda (lokal dev) portni eshitamiz
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server ${PORT}-portda ishga tushdi (${process.env.NODE_ENV || 'development'} rejimida)`);
+  });
+}
